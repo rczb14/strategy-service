@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023071701
+      author: kyc
+      changes:
+        - createTable:
+            tableName: user
+            remarks: 用户
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 主键
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(128)
+                  remarks: 用户名
+              - column:
+                  name: password
+                  type: varchar(127)
+                  remarks: 密码
+              - column:
+                  name: create_time
+                  type: datetime
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: update_time
+                  type: datetime
+                  remarks: 更新时间
+                  defaultValueDate: now()

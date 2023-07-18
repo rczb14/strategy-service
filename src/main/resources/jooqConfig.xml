@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd">
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>jdbc:mysql://localhost:3306/game-strategy</url>
+        <user>root</user>
+        <password>20150262</password>
+    </jdbc>
+    <generator>
+        <database>
+            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+            <includes>.*</includes>
+            <excludes>databasechangelog|databasechangeloglock</excludes>
+            <inputSchema>public</inputSchema>
+        </database>
+        <generate>
+            <validationAnnotations>false</validationAnnotations>
+            <javaTimeTypes>true</javaTimeTypes>
+            <pojos>true</pojos>
+            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+            <pojosToString>true</pojosToString>
+            <immutablePojos>false</immutablePojos>
+            <serializablePojos>false</serializablePojos>
+
+            <interfaces>true</interfaces>
+            <serializableInterfaces>false</serializableInterfaces>
+
+            <daos>true</daos>
+        </generate>
+        <target>
+            <packageName>com.kyc.game.dao</packageName>
+            <directory>src/main/java</directory>
+            <encoding>UTF-8</encoding>
+        </target>
+    </generator>
+</configuration>
