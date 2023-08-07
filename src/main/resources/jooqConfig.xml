@@ -11,7 +11,7 @@
             <name>org.jooq.meta.mysql.MySQLDatabase</name>
             <includes>.*</includes>
             <excludes>databasechangelog|databasechangeloglock</excludes>
-            <inputSchema>public</inputSchema>
+            <inputSchema>game-strategy</inputSchema>
         </database>
         <generate>
             <validationAnnotations>false</validationAnnotations>
@@ -21,10 +21,9 @@
             <pojosToString>true</pojosToString>
             <immutablePojos>false</immutablePojos>
             <serializablePojos>false</serializablePojos>
-
             <interfaces>true</interfaces>
             <serializableInterfaces>false</serializableInterfaces>
-
+            <springAnnotations>true</springAnnotations>
             <daos>true</daos>
         </generate>
         <target>

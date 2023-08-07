@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 2023071701
       author: kyc
+      runOnChange: true
       changes:
         - createTable:
             tableName: user
@@ -23,6 +24,14 @@ databaseChangeLog:
                   name: password
                   type: varchar(127)
                   remarks: 密码
+              - column:
+                  name: email
+                  type: varchar(127)
+                  remarks: 邮箱
+              - column:
+                  name: mobile
+                  type: varchar(127)
+                  remarks: 手机号
               - column:
                   name: create_time
                   type: datetime
