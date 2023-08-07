@@ -1,8 +1,7 @@
 package com.kyc.game.service.impl;
 
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.kyc.game.config.AliyunOssConfig;
+import com.kyc.game.config.AliYunOssConfig;
 import com.kyc.game.service.OssService;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,10 @@ public class OssServiceImpl implements OssService {
 
     @Override
     public String uploadFile(MultipartFile file) {
-        String endpoint = AliyunOssConfig.END_POINT;
-        String accessKeyId = AliyunOssConfig.ACCESS_KEY_ID;
-        String accessKeySecret = AliyunOssConfig.ACCESS_KEY_SECRET;
-        String bucketName = AliyunOssConfig.BUCKET_NAME;
         try {
-            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+            OSS ossClient = AliYunOssConfig.getOssClient();
+            String endpoint = AliYunOssConfig.END_POINT;
+            String bucketName = AliYunOssConfig.BUCKET_NAME;
 
             InputStream inputStream = file.getInputStream();
             //获取文件名称
@@ -35,7 +32,6 @@ public class OssServiceImpl implements OssService {
             fileName = datePath + "/" + fileName;
 
             ossClient.putObject(bucketName, fileName, inputStream);
-
             ossClient.shutdown();
             //返回路径
             return "https://" + bucketName + "." + endpoint + "/" + fileName;

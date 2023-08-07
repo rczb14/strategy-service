@@ -4,7 +4,9 @@
 package com.kyc.game.dao;
 
 
+import com.kyc.game.dao.tables.Config;
 import com.kyc.game.dao.tables.User;
+import com.kyc.game.dao.tables.records.ConfigRecord;
 import com.kyc.game.dao.tables.records.UserRecord;
 
 import org.jooq.TableField;
@@ -24,5 +26,6 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<ConfigRecord> KEY_CONFIG_PRIMARY = Internal.createUniqueKey(Config.CONFIG, DSL.name("KEY_config_PRIMARY"), new TableField[] { Config.CONFIG.ID }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_PRIMARY"), new TableField[] { User.USER.ID }, true);
 }

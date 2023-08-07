@@ -4,6 +4,7 @@
 package com.kyc.game.dao;
 
 
+import com.kyc.game.dao.tables.Config;
 import com.kyc.game.dao.tables.User;
 
 
@@ -12,6 +13,11 @@ import com.kyc.game.dao.tables.User;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * 配置
+     */
+    public static final Config CONFIG = Config.CONFIG;
 
     /**
      * 用户

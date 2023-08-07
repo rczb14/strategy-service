@@ -4,6 +4,7 @@
 package com.kyc.game.dao;
 
 
+import com.kyc.game.dao.tables.Config;
 import com.kyc.game.dao.tables.User;
 
 import java.util.Arrays;
@@ -28,6 +29,11 @@ public class GameStrategy extends SchemaImpl {
     public static final GameStrategy GAME_STRATEGY = new GameStrategy();
 
     /**
+     * 配置
+     */
+    public final Config CONFIG = Config.CONFIG;
+
+    /**
      * 用户
      */
     public final User USER = User.USER;
@@ -48,6 +54,7 @@ public class GameStrategy extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Config.CONFIG,
             User.USER
         );
     }
