@@ -19,6 +19,10 @@ public class Result<T> {
 
     private String meno;
 
+    public Result() {
+        code = 0;
+    }
+
     public Result<T> ok(T data) {
         return new Result<T>().setCode(0).setData(data);
     }

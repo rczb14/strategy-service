@@ -1,6 +1,7 @@
 package com.kyc.game.service;
 
 import com.kyc.game.dao.tables.pojos.User;
+import com.kyc.game.vo.user.UserInfo;
 
 public interface UserService {
     /**
@@ -25,6 +26,11 @@ public interface UserService {
      * @param user 用户信息
      */
     int register(User user);
+
+    /**
+     * 获取用户信息
+     */
+    UserInfo getInfo();
 
     /**
      * 获取验证码

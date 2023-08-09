@@ -15,11 +15,13 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User implements IUser {
 
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String email;
     private String mobile;
+    private Integer role;
+    private String avatar;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
@@ -31,16 +33,20 @@ public class User implements IUser {
         this.password = value.getPassword();
         this.email = value.getEmail();
         this.mobile = value.getMobile();
+        this.role = value.getRole();
+        this.avatar = value.getAvatar();
         this.createTime = value.getCreateTime();
         this.updateTime = value.getUpdateTime();
     }
 
     public User(
-        Integer id,
+        Long id,
         String username,
         String password,
         String email,
         String mobile,
+        Integer role,
+        String avatar,
         LocalDateTime createTime,
         LocalDateTime updateTime
     ) {
@@ -49,6 +55,8 @@ public class User implements IUser {
         this.password = password;
         this.email = email;
         this.mobile = mobile;
+        this.role = role;
+        this.avatar = avatar;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -57,7 +65,7 @@ public class User implements IUser {
      * Getter for <code>game-strategy.user.id</code>. 主键
      */
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -65,7 +73,7 @@ public class User implements IUser {
      * Setter for <code>game-strategy.user.id</code>. 主键
      */
     @Override
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -131,6 +139,38 @@ public class User implements IUser {
     @Override
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * Getter for <code>game-strategy.user.role</code>. 用户角色
+     */
+    @Override
+    public Integer getRole() {
+        return this.role;
+    }
+
+    /**
+     * Setter for <code>game-strategy.user.role</code>. 用户角色
+     */
+    @Override
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    /**
+     * Getter for <code>game-strategy.user.avatar</code>. 头像地址
+     */
+    @Override
+    public String getAvatar() {
+        return this.avatar;
+    }
+
+    /**
+     * Setter for <code>game-strategy.user.avatar</code>. 头像地址
+     */
+    @Override
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     /**
@@ -204,6 +244,18 @@ public class User implements IUser {
         }
         else if (!this.mobile.equals(other.mobile))
             return false;
+        if (this.role == null) {
+            if (other.role != null)
+                return false;
+        }
+        else if (!this.role.equals(other.role))
+            return false;
+        if (this.avatar == null) {
+            if (other.avatar != null)
+                return false;
+        }
+        else if (!this.avatar.equals(other.avatar))
+            return false;
         if (this.createTime == null) {
             if (other.createTime != null)
                 return false;
@@ -228,6 +280,8 @@ public class User implements IUser {
         result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
         result = prime * result + ((this.mobile == null) ? 0 : this.mobile.hashCode());
+        result = prime * result + ((this.role == null) ? 0 : this.role.hashCode());
+        result = prime * result + ((this.avatar == null) ? 0 : this.avatar.hashCode());
         result = prime * result + ((this.createTime == null) ? 0 : this.createTime.hashCode());
         result = prime * result + ((this.updateTime == null) ? 0 : this.updateTime.hashCode());
         return result;
@@ -242,6 +296,8 @@ public class User implements IUser {
         sb.append(", ").append(password);
         sb.append(", ").append(email);
         sb.append(", ").append(mobile);
+        sb.append(", ").append(role);
+        sb.append(", ").append(avatar);
         sb.append(", ").append(createTime);
         sb.append(", ").append(updateTime);
 
@@ -260,6 +316,8 @@ public class User implements IUser {
         setPassword(from.getPassword());
         setEmail(from.getEmail());
         setMobile(from.getMobile());
+        setRole(from.getRole());
+        setAvatar(from.getAvatar());
         setCreateTime(from.getCreateTime());
         setUpdateTime(from.getUpdateTime());
     }

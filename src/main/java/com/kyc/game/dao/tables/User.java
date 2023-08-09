@@ -13,12 +13,11 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
-import org.jooq.Identity;
+import org.jooq.Function9;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -54,7 +53,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>game-strategy.user.id</code>. 主键
      */
-    public final TableField<UserRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "主键");
+    public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "主键");
 
     /**
      * The column <code>game-strategy.user.username</code>. 用户名
@@ -74,7 +73,17 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>game-strategy.user.mobile</code>. 手机号
      */
-    public final TableField<UserRecord, String> MOBILE = createField(DSL.name("mobile"), SQLDataType.VARCHAR(127), this, "手机号");
+    public final TableField<UserRecord, String> MOBILE = createField(DSL.name("mobile"), SQLDataType.VARCHAR(255), this, "手机号");
+
+    /**
+     * The column <code>game-strategy.user.role</code>. 用户角色
+     */
+    public final TableField<UserRecord, Integer> ROLE = createField(DSL.name("role"), SQLDataType.INTEGER, this, "用户角色");
+
+    /**
+     * The column <code>game-strategy.user.avatar</code>. 头像地址
+     */
+    public final TableField<UserRecord, String> AVATAR = createField(DSL.name("avatar"), SQLDataType.VARCHAR(127), this, "头像地址");
 
     /**
      * The column <code>game-strategy.user.create_time</code>. 创建时间
@@ -125,11 +134,6 @@ public class User extends TableImpl<UserRecord> {
     }
 
     @Override
-    public Identity<UserRecord, Integer> getIdentity() {
-        return (Identity<UserRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<UserRecord> getPrimaryKey() {
         return Keys.KEY_USER_PRIMARY;
     }
@@ -174,18 +178,18 @@ public class User extends TableImpl<UserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Integer, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row9<Long, String, String, String, String, Integer, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super Integer, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -193,7 +197,7 @@ public class User extends TableImpl<UserRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Integer, ? super String, ? super String, ? super String, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Integer, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

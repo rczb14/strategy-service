@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Repository
-public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.User, Integer> {
+public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.User, Long> {
 
     /**
      * Create a new UserDao without any configuration
@@ -40,7 +40,7 @@ public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.U
     }
 
     @Override
-    public Integer getId(com.kyc.game.dao.tables.pojos.User object) {
+    public Long getId(com.kyc.game.dao.tables.pojos.User object) {
         return object.getId();
     }
 
@@ -48,28 +48,28 @@ public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.U
      * Fetch records that have <code>id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.kyc.game.dao.tables.pojos.User> fetchRangeOfId(Integer lowerInclusive, Integer upperInclusive) {
+    public List<com.kyc.game.dao.tables.pojos.User> fetchRangeOfId(Long lowerInclusive, Long upperInclusive) {
         return fetchRange(User.USER.ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>id IN (values)</code>
      */
-    public List<com.kyc.game.dao.tables.pojos.User> fetchById(Integer... values) {
+    public List<com.kyc.game.dao.tables.pojos.User> fetchById(Long... values) {
         return fetch(User.USER.ID, values);
     }
 
     /**
      * Fetch a unique record that has <code>id = value</code>
      */
-    public com.kyc.game.dao.tables.pojos.User fetchOneById(Integer value) {
+    public com.kyc.game.dao.tables.pojos.User fetchOneById(Long value) {
         return fetchOne(User.USER.ID, value);
     }
 
     /**
      * Fetch a unique record that has <code>id = value</code>
      */
-    public Optional<com.kyc.game.dao.tables.pojos.User> fetchOptionalById(Integer value) {
+    public Optional<com.kyc.game.dao.tables.pojos.User> fetchOptionalById(Long value) {
         return fetchOptional(User.USER.ID, value);
     }
 
@@ -131,6 +131,36 @@ public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.U
      */
     public List<com.kyc.game.dao.tables.pojos.User> fetchByMobile(String... values) {
         return fetch(User.USER.MOBILE, values);
+    }
+
+    /**
+     * Fetch records that have <code>role BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchRangeOfRole(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(User.USER.ROLE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>role IN (values)</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchByRole(Integer... values) {
+        return fetch(User.USER.ROLE, values);
+    }
+
+    /**
+     * Fetch records that have <code>avatar BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchRangeOfAvatar(String lowerInclusive, String upperInclusive) {
+        return fetchRange(User.USER.AVATAR, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>avatar IN (values)</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchByAvatar(String... values) {
+        return fetch(User.USER.AVATAR, values);
     }
 
     /**

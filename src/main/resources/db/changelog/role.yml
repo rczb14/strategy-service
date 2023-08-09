@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2023080901
+      author: kyc
+      changes:
+        - createTable:
+            tableName: role
+            remarks: 角色
+            columns:
+              - column:
+                  name: id
+                  type: int(11)
+                  remarks: 角色id
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  remarks: 角色名称
+              - column:
+                  name: auth
+                  type: varchar(127)
+                  remarks: 角色权限
+              - column:
+                  name: create_time
+                  type: datetime
+                  remarks: 创建时间
+                  defaultValueDate: now()
+              - column:
+                  name: update_time
+                  type: datetime
+                  remarks: 更新时间
+                  defaultValueDate: now()

@@ -16,12 +16,12 @@ public interface IUser {
     /**
      * Setter for <code>game-strategy.user.id</code>. 主键
      */
-    public void setId(Integer value);
+    public void setId(Long value);
 
     /**
      * Getter for <code>game-strategy.user.id</code>. 主键
      */
-    public Integer getId();
+    public Long getId();
 
     /**
      * Setter for <code>game-strategy.user.username</code>. 用户名
@@ -62,6 +62,26 @@ public interface IUser {
      * Getter for <code>game-strategy.user.mobile</code>. 手机号
      */
     public String getMobile();
+
+    /**
+     * Setter for <code>game-strategy.user.role</code>. 用户角色
+     */
+    public void setRole(Integer value);
+
+    /**
+     * Getter for <code>game-strategy.user.role</code>. 用户角色
+     */
+    public Integer getRole();
+
+    /**
+     * Setter for <code>game-strategy.user.avatar</code>. 头像地址
+     */
+    public void setAvatar(String value);
+
+    /**
+     * Getter for <code>game-strategy.user.avatar</code>. 头像地址
+     */
+    public String getAvatar();
 
     /**
      * Setter for <code>game-strategy.user.create_time</code>. 创建时间

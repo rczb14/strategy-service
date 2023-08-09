@@ -5,8 +5,10 @@ package com.kyc.game.dao;
 
 
 import com.kyc.game.dao.tables.Config;
+import com.kyc.game.dao.tables.Role;
 import com.kyc.game.dao.tables.User;
 import com.kyc.game.dao.tables.records.ConfigRecord;
+import com.kyc.game.dao.tables.records.RoleRecord;
 import com.kyc.game.dao.tables.records.UserRecord;
 
 import org.jooq.TableField;
@@ -27,5 +29,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<ConfigRecord> KEY_CONFIG_PRIMARY = Internal.createUniqueKey(Config.CONFIG, DSL.name("KEY_config_PRIMARY"), new TableField[] { Config.CONFIG.ID }, true);
+    public static final UniqueKey<RoleRecord> KEY_ROLE_PRIMARY = Internal.createUniqueKey(Role.ROLE, DSL.name("KEY_role_PRIMARY"), new TableField[] { Role.ROLE.ID }, true);
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, DSL.name("KEY_user_PRIMARY"), new TableField[] { User.USER.ID }, true);
 }

@@ -1,4 +1,4 @@
-package com.kyc.game.vo;
+package com.kyc.game.vo.user;
 
 import lombok.Data;
 
