@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record9;
-import org.jooq.Row9;
+import org.jooq.Record10;
+import org.jooq.Row10;
 import org.jooq.impl.UpdatableRecordImpl;
 
 
@@ -20,7 +20,7 @@ import org.jooq.impl.UpdatableRecordImpl;
  * 用户
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record9<Long, String, String, String, String, Integer, String, LocalDateTime, LocalDateTime>, IUser {
+public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record10<Long, String, String, String, String, Integer, Integer, String, LocalDateTime, LocalDateTime>, IUser {
 
     private static final long serialVersionUID = 1L;
 
@@ -105,11 +105,27 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     /**
+     * Setter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    @Override
+    public void setGender(Integer value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    @Override
+    public Integer getGender() {
+        return (Integer) get(5);
+    }
+
+    /**
      * Setter for <code>game-strategy.user.role</code>. 用户角色
      */
     @Override
     public void setRole(Integer value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
@@ -117,7 +133,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public Integer getRole() {
-        return (Integer) get(5);
+        return (Integer) get(6);
     }
 
     /**
@@ -125,7 +141,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public void setAvatar(String value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
@@ -133,7 +149,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public String getAvatar() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
@@ -141,7 +157,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public void setCreateTime(LocalDateTime value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
@@ -149,7 +165,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(7);
+        return (LocalDateTime) get(8);
     }
 
     /**
@@ -157,7 +173,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public void setUpdateTime(LocalDateTime value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
@@ -165,7 +181,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      */
     @Override
     public LocalDateTime getUpdateTime() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -178,17 +194,17 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     // -------------------------------------------------------------------------
-    // Record9 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, String, String, String, String, Integer, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row10<Long, String, String, String, String, Integer, Integer, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row9<Long, String, String, String, String, Integer, String, LocalDateTime, LocalDateTime> valuesRow() {
-        return (Row9) super.valuesRow();
+    public Row10<Long, String, String, String, String, Integer, Integer, String, LocalDateTime, LocalDateTime> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
@@ -218,21 +234,26 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Field<Integer> field6() {
+        return User.USER.GENDER;
+    }
+
+    @Override
+    public Field<Integer> field7() {
         return User.USER.ROLE;
     }
 
     @Override
-    public Field<String> field7() {
+    public Field<String> field8() {
         return User.USER.AVATAR;
     }
 
     @Override
-    public Field<LocalDateTime> field8() {
+    public Field<LocalDateTime> field9() {
         return User.USER.CREATE_TIME;
     }
 
     @Override
-    public Field<LocalDateTime> field9() {
+    public Field<LocalDateTime> field10() {
         return User.USER.UPDATE_TIME;
     }
 
@@ -263,21 +284,26 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Integer component6() {
+        return getGender();
+    }
+
+    @Override
+    public Integer component7() {
         return getRole();
     }
 
     @Override
-    public String component7() {
+    public String component8() {
         return getAvatar();
     }
 
     @Override
-    public LocalDateTime component8() {
+    public LocalDateTime component9() {
         return getCreateTime();
     }
 
     @Override
-    public LocalDateTime component9() {
+    public LocalDateTime component10() {
         return getUpdateTime();
     }
 
@@ -308,21 +334,26 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Integer value6() {
+        return getGender();
+    }
+
+    @Override
+    public Integer value7() {
         return getRole();
     }
 
     @Override
-    public String value7() {
+    public String value8() {
         return getAvatar();
     }
 
     @Override
-    public LocalDateTime value8() {
+    public LocalDateTime value9() {
         return getCreateTime();
     }
 
     @Override
-    public LocalDateTime value9() {
+    public LocalDateTime value10() {
         return getUpdateTime();
     }
 
@@ -358,30 +389,36 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public UserRecord value6(Integer value) {
+        setGender(value);
+        return this;
+    }
+
+    @Override
+    public UserRecord value7(Integer value) {
         setRole(value);
         return this;
     }
 
     @Override
-    public UserRecord value7(String value) {
+    public UserRecord value8(String value) {
         setAvatar(value);
         return this;
     }
 
     @Override
-    public UserRecord value8(LocalDateTime value) {
+    public UserRecord value9(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public UserRecord value9(LocalDateTime value) {
+    public UserRecord value10(LocalDateTime value) {
         setUpdateTime(value);
         return this;
     }
 
     @Override
-    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, Integer value6, String value7, LocalDateTime value8, LocalDateTime value9) {
+    public UserRecord values(Long value1, String value2, String value3, String value4, String value5, Integer value6, Integer value7, String value8, LocalDateTime value9, LocalDateTime value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -391,6 +428,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
         value7(value7);
         value8(value8);
         value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -405,6 +443,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
         setPassword(from.getPassword());
         setEmail(from.getEmail());
         setMobile(from.getMobile());
+        setGender(from.getGender());
         setRole(from.getRole());
         setAvatar(from.getAvatar());
         setCreateTime(from.getCreateTime());
@@ -432,7 +471,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long id, String username, String password, String email, String mobile, Integer role, String avatar, LocalDateTime createTime, LocalDateTime updateTime) {
+    public UserRecord(Long id, String username, String password, String email, String mobile, Integer gender, Integer role, String avatar, LocalDateTime createTime, LocalDateTime updateTime) {
         super(User.USER);
 
         setId(id);
@@ -440,6 +479,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
         setPassword(password);
         setEmail(email);
         setMobile(mobile);
+        setGender(gender);
         setRole(role);
         setAvatar(avatar);
         setCreateTime(createTime);
@@ -458,6 +498,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
             setPassword(value.getPassword());
             setEmail(value.getEmail());
             setMobile(value.getMobile());
+            setGender(value.getGender());
             setRole(value.getRole());
             setAvatar(value.getAvatar());
             setCreateTime(value.getCreateTime());

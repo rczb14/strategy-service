@@ -64,6 +64,16 @@ public interface IUser {
     public String getMobile();
 
     /**
+     * Setter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    public void setGender(Integer value);
+
+    /**
+     * Getter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    public Integer getGender();
+
+    /**
      * Setter for <code>game-strategy.user.role</code>. 用户角色
      */
     public void setRole(Integer value);

@@ -20,6 +20,7 @@ public class User implements IUser {
     private String password;
     private String email;
     private String mobile;
+    private Integer gender;
     private Integer role;
     private String avatar;
     private LocalDateTime createTime;
@@ -33,6 +34,7 @@ public class User implements IUser {
         this.password = value.getPassword();
         this.email = value.getEmail();
         this.mobile = value.getMobile();
+        this.gender = value.getGender();
         this.role = value.getRole();
         this.avatar = value.getAvatar();
         this.createTime = value.getCreateTime();
@@ -45,6 +47,7 @@ public class User implements IUser {
         String password,
         String email,
         String mobile,
+        Integer gender,
         Integer role,
         String avatar,
         LocalDateTime createTime,
@@ -55,6 +58,7 @@ public class User implements IUser {
         this.password = password;
         this.email = email;
         this.mobile = mobile;
+        this.gender = gender;
         this.role = role;
         this.avatar = avatar;
         this.createTime = createTime;
@@ -139,6 +143,22 @@ public class User implements IUser {
     @Override
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * Getter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    @Override
+    public Integer getGender() {
+        return this.gender;
+    }
+
+    /**
+     * Setter for <code>game-strategy.user.gender</code>. 性别（0：女；1：男）
+     */
+    @Override
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     /**
@@ -244,6 +264,12 @@ public class User implements IUser {
         }
         else if (!this.mobile.equals(other.mobile))
             return false;
+        if (this.gender == null) {
+            if (other.gender != null)
+                return false;
+        }
+        else if (!this.gender.equals(other.gender))
+            return false;
         if (this.role == null) {
             if (other.role != null)
                 return false;
@@ -280,6 +306,7 @@ public class User implements IUser {
         result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
         result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
         result = prime * result + ((this.mobile == null) ? 0 : this.mobile.hashCode());
+        result = prime * result + ((this.gender == null) ? 0 : this.gender.hashCode());
         result = prime * result + ((this.role == null) ? 0 : this.role.hashCode());
         result = prime * result + ((this.avatar == null) ? 0 : this.avatar.hashCode());
         result = prime * result + ((this.createTime == null) ? 0 : this.createTime.hashCode());
@@ -296,6 +323,7 @@ public class User implements IUser {
         sb.append(", ").append(password);
         sb.append(", ").append(email);
         sb.append(", ").append(mobile);
+        sb.append(", ").append(gender);
         sb.append(", ").append(role);
         sb.append(", ").append(avatar);
         sb.append(", ").append(createTime);
@@ -316,6 +344,7 @@ public class User implements IUser {
         setPassword(from.getPassword());
         setEmail(from.getEmail());
         setMobile(from.getMobile());
+        setGender(from.getGender());
         setRole(from.getRole());
         setAvatar(from.getAvatar());
         setCreateTime(from.getCreateTime());

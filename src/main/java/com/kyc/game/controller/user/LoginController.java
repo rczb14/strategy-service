@@ -1,4 +1,4 @@
-package com.kyc.game.controller;
+package com.kyc.game.controller.user;
 
 
 import com.alibaba.fastjson2.JSONObject;
@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/login")
+public class LoginController {
     @Resource
     UserService userService;
 
@@ -43,10 +43,15 @@ public class UserController {
         }
         String token = "";
         if (code == 0) {
-            token = UUID.randomUUID().toString();
-            request.getSession().setAttribute("token", token);
+            token = request.getSession().getAttribute("token").toString();
         }
         return rs.setCode(code).setMessage(ResultCode.from(code)).setData(token);
+    }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public void logout(String token) {
+        userService.logout(token);
     }
 
     @PostMapping("/register")

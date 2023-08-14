@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
 
     SimpleDateFormat sdf = new SimpleDateFormat();
 
+    private static Map<String, Long> tokens = new HashMap<>();
+
     @Override
     public int login(String username, String password) {
         User user = dsl.selectFrom(userT).where(userT.USERNAME.eq(username)).fetchOneInto(User.class);
@@ -43,16 +45,23 @@ public class UserServiceImpl implements UserService {
             return ResultCode.ERROR_LOGIN_USERNAME_NOT_EXISTS.getCode();
         }
         if (password.equals(user.getPassword())) {
-            HttpSession session = BaseUtils.getSession();
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("username", user.getUsername());
-            session.setAttribute("phoneNumber", user.getMobile());
-            session.setAttribute("role", user.getRole());
-            session.setAttribute("email", user.getEmail());
+            setSession(user);
             return ResultCode.SUCCESS.getCode();
         } else {
             return ResultCode.ERROR_LOGIN_PASSWORD_ERROR.getCode();
         }
+    }
+
+    private void setSession(User user) {
+        HttpSession session = BaseUtils.getSession();
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("phoneNumber", user.getMobile());
+        session.setAttribute("role", user.getRole());
+        session.setAttribute("email", user.getEmail());
+        String token = UUID.randomUUID().toString();
+        session.setAttribute("token", token);
+        tokens.put(token, user.getId());
     }
 
     @Override
@@ -70,7 +79,15 @@ public class UserServiceImpl implements UserService {
         if (now - start > 60 * 1000) {
             return ResultCode.ERROR_LOGIN_CODE_AFTER_TIME.getCode();
         }
+        setSession(user);
         return ResultCode.SUCCESS.getCode();
+    }
+
+    @Override
+    public void logout(String token) {
+        tokens.remove(token);
+        HttpSession session = BaseUtils.getSession();
+        session.invalidate();
     }
 
     @Override
@@ -123,6 +140,24 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public User getProfile() {
+        Long userId = BaseUtils.getUserId();
+        return userDao.fetchOneById(userId);
+    }
+
+    @Override
+    public boolean updateUserAvatar(String path) {
+        try {
+            Long userId = BaseUtils.getUserId();
+            dsl.update(userT).set(userT.AVATAR, path).where(userT.ID.eq(userId)).execute();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 
     private void sendCaptcha(String phoneNumber) {
         int code = SMSUtils.sendMessage(phoneNumber);

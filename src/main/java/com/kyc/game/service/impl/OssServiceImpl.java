@@ -1,7 +1,7 @@
 package com.kyc.game.service.impl;
 
 import com.aliyun.oss.OSS;
-import com.kyc.game.config.AliYunOssConfig;
+import com.kyc.game.config.alibaba.AliYunOssConfig;
 import com.kyc.game.service.OssService;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class OssServiceImpl implements OssService {
             fileName = datePath + "/" + fileName;
 
             ossClient.putObject(bucketName, fileName, inputStream);
-            ossClient.shutdown();
+            //ossClient.shutdown();
             //返回路径
             return "https://" + bucketName + "." + endpoint + "/" + fileName;
         } catch (Exception e) {

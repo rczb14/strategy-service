@@ -1,4 +1,4 @@
-package com.kyc.game.config;
+package com.kyc.game.config.swagger;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

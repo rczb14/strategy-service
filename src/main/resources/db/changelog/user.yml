@@ -32,6 +32,10 @@ databaseChangeLog:
                   type: varchar(255)
                   remarks: 手机号
               - column:
+                  name: gender
+                  type: int(4)
+                  remarks: 性别
+              - column:
                   name: role
                   type: int(4)
                   remarks: 用户角色

@@ -21,6 +21,13 @@ public interface UserService {
     int login(String phoneNumber, int captcha);
 
     /**
+     * 退出登录
+     *
+     * @param token token
+     */
+    void logout(String token);
+
+    /**
      * 登录
      *
      * @param user 用户信息
@@ -38,4 +45,16 @@ public interface UserService {
      * @param phoneNumber 手机号码
      */
     void getCaptcha(String phoneNumber);
+
+    /**
+     * 获取用户个人信息
+     */
+    User getProfile();
+
+    /**
+     * 更新头像路径
+     *
+     * @param path 头像路径
+     */
+    boolean updateUserAvatar(String path);
 }

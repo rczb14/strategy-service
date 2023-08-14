@@ -1,9 +1,8 @@
-package com.kyc.game.config;
+package com.kyc.game.config.alibaba;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.kyc.game.service.ConfigService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,11 +14,8 @@ public class AliYunOssConfig {
     public static String ACCESS_KEY_SECRET;
     public static String BUCKET_NAME;
     private static OSS ossClient;
-
-    @Resource
-    ConfigService configService;
-
     private void initOssClient() {
+        ConfigService configService = new ConfigService();
         END_POINT = configService.getConfig("ossEndPoint");
         ACCESS_KEY_ID = configService.getConfig("ossKeyId");
         ACCESS_KEY_SECRET = configService.getConfig("ossKeySecret");

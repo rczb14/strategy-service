@@ -15,7 +15,7 @@ import java.util.Map;
 public class SMSUtils {
 
     public static void main(String[] args) {
-        System.out.println(sendMessage("15189787609"));
+
     }
 
     private static final DecimalFormat df = new DecimalFormat("000000");

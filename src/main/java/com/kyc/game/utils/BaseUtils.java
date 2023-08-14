@@ -11,6 +11,11 @@ public class BaseUtils {
         return Long.valueOf(request.getSession().getAttribute("userId").toString());
     }
 
+    public static String getValue(String param) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request.getSession().getAttribute(param).toString();
+    }
+
     public static HttpSession getSession() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request.getSession();

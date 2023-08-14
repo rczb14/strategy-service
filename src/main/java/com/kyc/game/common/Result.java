@@ -26,4 +26,8 @@ public class Result<T> {
     public Result<T> ok(T data) {
         return new Result<T>().setCode(0).setData(data);
     }
+
+    public Result<String> error(String data) {
+        return new Result<String>().setCode(-1).setMessage(data);
+    }
 }

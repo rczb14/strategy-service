@@ -1,4 +1,4 @@
-package com.kyc.game.controller;
+package com.kyc.game.controller.pub;
 
 import com.kyc.game.common.Result;
 import com.kyc.game.service.OssService;

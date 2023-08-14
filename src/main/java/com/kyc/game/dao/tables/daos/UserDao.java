@@ -134,6 +134,21 @@ public class UserDao extends DAOImpl<UserRecord, com.kyc.game.dao.tables.pojos.U
     }
 
     /**
+     * Fetch records that have <code>gender BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchRangeOfGender(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(User.USER.GENDER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>gender IN (values)</code>
+     */
+    public List<com.kyc.game.dao.tables.pojos.User> fetchByGender(Integer... values) {
+        return fetch(User.USER.GENDER, values);
+    }
+
+    /**
      * Fetch records that have <code>role BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
