@@ -52,6 +52,21 @@ public interface UserService {
     User getProfile();
 
     /**
+     * 更新用户个人信息
+     *
+     * @param user 用户信息
+     */
+    void updateProfile(User user);
+
+    /**
+     * 修改密码
+     *
+     * @param oldPassword 旧密码
+     * @param newPassWord 新密码
+     */
+    void updatePwd(String oldPassword,String newPassword);
+
+    /**
      * 更新头像路径
      *
      * @param path 头像路径

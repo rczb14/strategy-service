@@ -23,9 +23,36 @@ public class UserController {
         return new Result<User>().setData(userService.getProfile());
     }
 
+    @ResponseBody
+    @PutMapping("/profile")
+    public Result<String> updateProfile(@RequestBody User user) {
+        Result<String> rs = new Result<>();
+        try {
+            userService.updateProfile(user);
+            rs.ok("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            rs.error("信息更新失败！");
+        }
+        return rs;
+    }
+
+    @ResponseBody
+    @PutMapping("/updatePwd")
+    public Result<String> updatePwd(String oldPassword, String newPassword) {
+        Result<String> rs = new Result<>();
+        try {
+            userService.updatePwd(oldPassword, newPassword);
+            rs.ok("success");
+        } catch (Exception e) {
+            rs.error(e.getMessage());
+        }
+        return rs;
+    }
+
     @PostMapping("/avatar")
     @ResponseBody
-    public Result<String> avatar(@RequestParam("avatarfile") MultipartFile file){
+    public Result<String> avatar(@RequestParam("avatarfile") MultipartFile file) {
         Result<String> rs = new Result<>();
         if (!file.isEmpty()) {
             String path = ossService.uploadFile(file);
@@ -34,6 +61,7 @@ public class UserController {
                 return rs;
             }
         }
-        return rs.error("上传图片异常，请联系管理员");
+        rs.error("上传图片异常，请联系管理员");
+        return rs;
     }
 }

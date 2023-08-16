@@ -1,7 +1,7 @@
 package com.kyc.game.config.web;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.kyc.game.common.Result;
+import com.kyc.game.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -22,10 +22,12 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         System.out.println(request.getRequestURI());
 
         HttpSession session = request.getSession();
-        String tokenI = session.getAttribute("token").toString();
-        String token = request.getParameter("token");
-        String userId = session.getAttribute("userId").toString();
-        if (StringUtils.isEmpty(userId)) {
+        Object userId = BaseUtils.getUserId();
+        if (userId == null) {
+
+            String tokenI = (String) session.getAttribute("token");
+            String token = request.getParameter("token");
+
             if (StringUtils.isEmpty(tokenI)) {
                 bool = false;
             } else if (StringUtils.isEmpty(token)) {
@@ -36,12 +38,11 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         }
         if (!bool) {
             response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html; charset=utf-8");
+            response.setContentType("application/json; charset=utf-8");
             try (PrintWriter writer = response.getWriter()) {
                 JSONObject jsonObject = new JSONObject();
-                Result<String> rs = new Result<>();
-                rs.setCode(401);
-                writer.print(jsonObject.put("data", rs));
+                jsonObject.put("code", 401);
+                writer.print(JSONObject.toJSONString(jsonObject));
             } catch (IOException e) {
                 log.error("response error", e);
             }

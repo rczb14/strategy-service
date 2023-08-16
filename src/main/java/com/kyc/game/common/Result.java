@@ -23,11 +23,13 @@ public class Result<T> {
         code = 0;
     }
 
-    public Result<T> ok(T data) {
-        return new Result<T>().setCode(0).setData(data);
+    public void ok(T data) {
+        this.code = 0;
+        this.data = data;
     }
 
-    public Result<String> error(String data) {
-        return new Result<String>().setCode(-1).setMessage(data);
+    public void error(String message) {
+        this.code = -1;
+        this.message = message;
     }
 }

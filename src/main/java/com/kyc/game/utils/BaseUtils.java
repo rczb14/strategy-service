@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class BaseUtils {
     public static Long getUserId() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return Long.valueOf(request.getSession().getAttribute("userId").toString());
+        return (Long) request.getSession().getAttribute("userId");
     }
 
     public static String getValue(String param) {

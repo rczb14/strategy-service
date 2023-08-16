@@ -18,6 +18,7 @@ public class OssController {
         //返回上传到oss的路径
         Result<String> rs = new Result<>();
         String url = ossService.uploadFile(file);
-        return rs.ok(url);
+        rs.ok(url);
+        return rs;
     }
 }

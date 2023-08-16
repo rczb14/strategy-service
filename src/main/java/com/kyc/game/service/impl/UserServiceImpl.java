@@ -148,6 +148,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateProfile(User user) {
+        dsl.update(userT).set(userT.USERNAME, user.getUsername())
+                .set(userT.MOBILE, user.getMobile())
+                .set(userT.EMAIL, user.getEmail())
+                .set(userT.GENDER, user.getGender()).execute();
+    }
+
+    @Override
+    public void updatePwd(String oldPassword, String newPassword) {
+        Long userId = BaseUtils.getUserId();
+        User user = userDao.fetchOneById(userId);
+        String password = user.getPassword();
+        if (!oldPassword.equals(password)) {
+            throw new CommonException("修改密码失败，旧密码输入错误！");
+        }
+        if (newPassword.equals(password)) {
+            throw new CommonException("修改密码失败，新密码不能与旧密码相同！");
+        }
+        dsl.update(userT).set(userT.PASSWORD, newPassword).where(userT.ID.eq(userId)).execute();
+    }
+
+    @Override
     public boolean updateUserAvatar(String path) {
         try {
             Long userId = BaseUtils.getUserId();

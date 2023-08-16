@@ -13,6 +13,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CommonException.class)
     @ResponseBody
     public Result<String> CommonExceptionHandler(CommonException e) {
-        return new Result<String>().error(e.getMessage());
+        Result<String> rs = new Result<>();
+        rs.error(e.getMessage());
+        return rs;
     }
 }
