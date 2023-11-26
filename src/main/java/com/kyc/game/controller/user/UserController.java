@@ -17,13 +17,11 @@ public class UserController {
     @Resource
     private OssService ossService;
 
-    @ResponseBody
     @GetMapping("/profile")
     public Result<User> getProfile() {
         return new Result<User>().setData(userService.getProfile());
     }
 
-    @ResponseBody
     @PutMapping("/profile")
     public Result<String> updateProfile(@RequestBody User user) {
         Result<String> rs = new Result<>();
@@ -37,7 +35,6 @@ public class UserController {
         return rs;
     }
 
-    @ResponseBody
     @PutMapping("/updatePwd")
     public Result<String> updatePwd(String oldPassword, String newPassword) {
         Result<String> rs = new Result<>();
@@ -51,7 +48,6 @@ public class UserController {
     }
 
     @PostMapping("/avatar")
-    @ResponseBody
     public Result<String> avatar(@RequestParam("avatarfile") MultipartFile file) {
         Result<String> rs = new Result<>();
         if (!file.isEmpty()) {

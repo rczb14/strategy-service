@@ -6,14 +6,15 @@ package com.kyc.game.dao.tables.pojos;
 
 import com.kyc.game.dao.tables.interfaces.IConfig;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
 /**
  * 配置
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Config implements IConfig {
+@SuppressWarnings({"all", "unchecked", "rawtypes"})
+public class Config implements IConfig, Serializable {
 
     private Integer id;
     private String key;
@@ -22,7 +23,8 @@ public class Config implements IConfig {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
-    public Config() {}
+    public Config() {
+    }
 
     public Config(IConfig value) {
         this.id = value.getId();
@@ -34,12 +36,12 @@ public class Config implements IConfig {
     }
 
     public Config(
-        Integer id,
-        String key,
-        String value,
-        String description,
-        LocalDateTime createTime,
-        LocalDateTime updateTime
+            Integer id,
+            String key,
+            String value,
+            String description,
+            LocalDateTime createTime,
+            LocalDateTime updateTime
     ) {
         this.id = id;
         this.key = key;
@@ -157,38 +159,32 @@ public class Config implements IConfig {
         if (this.id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!this.id.equals(other.id))
+        } else if (!this.id.equals(other.id))
             return false;
         if (this.key == null) {
             if (other.key != null)
                 return false;
-        }
-        else if (!this.key.equals(other.key))
+        } else if (!this.key.equals(other.key))
             return false;
         if (this.value == null) {
             if (other.value != null)
                 return false;
-        }
-        else if (!this.value.equals(other.value))
+        } else if (!this.value.equals(other.value))
             return false;
         if (this.description == null) {
             if (other.description != null)
                 return false;
-        }
-        else if (!this.description.equals(other.description))
+        } else if (!this.description.equals(other.description))
             return false;
         if (this.createTime == null) {
             if (other.createTime != null)
                 return false;
-        }
-        else if (!this.createTime.equals(other.createTime))
+        } else if (!this.createTime.equals(other.createTime))
             return false;
         if (this.updateTime == null) {
             if (other.updateTime != null)
                 return false;
-        }
-        else if (!this.updateTime.equals(other.updateTime))
+        } else if (!this.updateTime.equals(other.updateTime))
             return false;
         return true;
     }

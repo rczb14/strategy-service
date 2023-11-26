@@ -3,67 +3,58 @@ package com.kyc.game.controller.user;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.kyc.game.common.Result;
-import com.kyc.game.common.ResultCode;
 import com.kyc.game.dao.tables.pojos.User;
 import com.kyc.game.service.UserService;
 import com.kyc.game.utils.CaptchaImageUtils;
 import com.kyc.game.vo.user.LoginVO;
 import com.kyc.game.vo.user.UserInfo;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController {
     @Resource
     UserService userService;
 
-    private static Map<String, String> map = new HashMap<>();
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping("/login")
-    @ResponseBody
-    public Result<String> login(@RequestBody LoginVO vo, HttpServletRequest request) {
+    public Result<String> login(@RequestBody LoginVO vo) {
         Result<String> rs = new Result<>();
-        int code = -1;
-        String captcha = map.get(vo.getUuid());
-        if (vo.getType().equals("1")) {
-            if (!captcha.equals(String.valueOf(vo.getCode()))) {
-                code = ResultCode.ERROR_LOGIN_CODE.getCode();
-            } else {
-                code = userService.login(vo.getUsername(), vo.getPassword());
-            }
-        } else {
-            code = userService.login(vo.getPhoneNumber(), vo.getCode());
-        }
         String token = "";
-        if (code == 0) {
-            token = request.getSession().getAttribute("token").toString();
+        if (vo.getType().equals("1")) {
+            //用户名密码登录
+            userService.checkCaptcha(vo.getUuid(), vo.getCode());
+            token = userService.login(vo.getUsername(), vo.getPassword());
+        } else {
+            //手机号+短信验证码登录
+            userService.checkCaptcha(vo.getPhoneNumber(), vo.getCode());
+            token = userService.login(vo.getPhoneNumber());
         }
-        return rs.setCode(code).setMessage(ResultCode.from(code)).setData(token);
+        rs.ok(token);
+        return rs;
     }
 
-    @PostMapping("/logout")
-    @ResponseBody
-    public void logout(String token) {
+    @GetMapping("/logout/{token}")
+    public void logout(@PathVariable String token) {
         userService.logout(token);
     }
 
     @PostMapping("/register")
-    @ResponseBody
     public Result<String> register(@RequestBody User user) {
         Result<String> rs = new Result<>();
-        int code = userService.register(user);
-        return rs.setCode(code).setMessage(ResultCode.from(code));
+        userService.register(user);
+        rs.ok();
+        return rs;
     }
 
     @GetMapping("/getInfo")
-    @ResponseBody
     public Result<UserInfo> getInfo() {
         Result<UserInfo> rs = new Result<>();
         UserInfo userInfo = userService.getInfo();
@@ -71,18 +62,16 @@ public class LoginController {
     }
 
     @GetMapping("/getCode")
-    @ResponseBody
     public void getCode(String phoneNumber) {
         userService.getCaptcha(phoneNumber);
     }
 
     @GetMapping("/captchaImage")
-    @ResponseBody
     public Result<JSONObject> captchaImage() {
         JSONObject jsonObject = CaptchaImageUtils.drawImage();
         String uuid = UUID.randomUUID().toString();
         //保存当前验证码
-        map.put(uuid, jsonObject.getString("code"));
+        redisTemplate.opsForValue().set(uuid, jsonObject.getString("code"), 60, TimeUnit.SECONDS);
         Result<JSONObject> res = new Result<>();
         jsonObject.put("uuid", uuid);
         return res.setData(jsonObject);

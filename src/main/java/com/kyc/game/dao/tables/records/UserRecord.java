@@ -448,7 +448,6 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
         setAvatar(from.getAvatar());
         setCreateTime(from.getCreateTime());
         setUpdateTime(from.getUpdateTime());
-        resetChangedOnNotNull();
     }
 
     @Override

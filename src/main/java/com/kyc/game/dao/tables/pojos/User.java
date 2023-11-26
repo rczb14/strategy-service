@@ -6,6 +6,7 @@ package com.kyc.game.dao.tables.pojos;
 
 import com.kyc.game.dao.tables.interfaces.IUser;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * 用户
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class User implements IUser {
+public class User implements IUser, Serializable {
 
     private Long id;
     private String username;

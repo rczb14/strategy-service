@@ -6,6 +6,7 @@ package com.kyc.game.dao.tables.pojos;
 
 import com.kyc.game.dao.tables.interfaces.IRole;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * 角色
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Role implements IRole {
+public class Role implements IRole, Serializable {
 
     private Integer id;
     private String name;

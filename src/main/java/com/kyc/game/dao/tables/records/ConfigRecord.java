@@ -292,7 +292,6 @@ public class ConfigRecord extends UpdatableRecordImpl<ConfigRecord> implements R
         setDescription(from.getDescription());
         setCreateTime(from.getCreateTime());
         setUpdateTime(from.getUpdateTime());
-        resetChangedOnNotNull();
     }
 
     @Override

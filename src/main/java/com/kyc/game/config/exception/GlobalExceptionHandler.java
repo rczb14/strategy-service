@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<String> CommonExceptionHandler(CommonException e) {
         Result<String> rs = new Result<>();
-        rs.error(e.getMessage());
+        rs.error(e.getCode(), e.getMessage());
         return rs;
     }
 }

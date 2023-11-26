@@ -2,26 +2,20 @@ server:
   port: 9090
 
 spring:
+  profiles:
+    active: "database"
   application:
     name: game-strategy
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      database: 1
-      connect-timeout: 3000ms
-      lettuce:
-        pool:
-          max-active: 8
-          max-wait: -1
-          max-idle: 8
-          min-idle: 0
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/game-strategy?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT
-    username: root
-    password: "20150262"
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#  cloud:
+#    nacos:
+#      config:
+#        enabled: true
+#        server-addr: localhost:8848
+#        file-extension: yaml
+#
+#  config:
+#    import: nacos:game-strategy-dev.yaml
 
   liquibase:
     change-log: classpath:/db/master.yml
@@ -30,5 +24,6 @@ spring:
     password: ${spring.datasource.password}
     enabled: false
     drop-first: false
+
 
 

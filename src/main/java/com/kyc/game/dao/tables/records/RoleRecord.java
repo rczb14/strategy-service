@@ -253,7 +253,6 @@ public class RoleRecord extends UpdatableRecordImpl<RoleRecord> implements Recor
         setAuth(from.getAuth());
         setCreateTime(from.getCreateTime());
         setUpdateTime(from.getUpdateTime());
-        resetChangedOnNotNull();
     }
 
     @Override

@@ -10,15 +10,22 @@ public interface UserService {
      * @param username 用户名
      * @param password 密码
      */
-    int login(String username, String password);
+    String login(String username, String password);
+
+    /**
+     * 检查验证码
+     *
+     * @param captchaKey 验证码key
+     * @param code       验证码值
+     */
+    void checkCaptcha(String captchaKey, String code);
 
     /**
      * 登录
      *
      * @param phoneNumber 手机号
-     * @param captcha     验证码
      */
-    int login(String phoneNumber, int captcha);
+    String login(String phoneNumber);
 
     /**
      * 退出登录
@@ -32,7 +39,7 @@ public interface UserService {
      *
      * @param user 用户信息
      */
-    int register(User user);
+    void register(User user);
 
     /**
      * 获取用户信息
@@ -62,9 +69,9 @@ public interface UserService {
      * 修改密码
      *
      * @param oldPassword 旧密码
-     * @param newPassWord 新密码
+     * @param newPassword 新密码
      */
-    void updatePwd(String oldPassword,String newPassword);
+    void updatePwd(String oldPassword, String newPassword);
 
     /**
      * 更新头像路径

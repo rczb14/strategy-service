@@ -6,18 +6,21 @@ import com.kyc.game.common.ResultCode;
 import com.kyc.game.dao.tables.daos.UserDao;
 import com.kyc.game.dao.tables.pojos.Role;
 import com.kyc.game.dao.tables.pojos.User;
-import com.kyc.game.eneity.CodeMessage;
 import com.kyc.game.service.UserService;
 import com.kyc.game.utils.BaseUtils;
 import com.kyc.game.utils.SMSUtils;
 import com.kyc.game.vo.user.UserInfo;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpSession;
 import org.jooq.DSLContext;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,79 +31,70 @@ public class UserServiceImpl implements UserService {
     @Resource
     UserDao userDao;
 
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
+
     com.kyc.game.dao.tables.User userT = com.kyc.game.dao.tables.User.USER;
 
     com.kyc.game.dao.tables.Role roleT = com.kyc.game.dao.tables.Role.ROLE;
 
-    private static final Map<String, CodeMessage> codeMap = new HashMap<>(16);
-
     SimpleDateFormat sdf = new SimpleDateFormat();
 
-    private static Map<String, Long> tokens = new HashMap<>();
-
     @Override
-    public int login(String username, String password) {
+    public String login(String username, String password) {
         User user = dsl.selectFrom(userT).where(userT.USERNAME.eq(username)).fetchOneInto(User.class);
         if (user == null) {
-            return ResultCode.ERROR_LOGIN_USERNAME_NOT_EXISTS.getCode();
+            throw new CommonException(ResultCode.ERROR_LOGIN_USERNAME_NOT_EXISTS);
         }
         if (password.equals(user.getPassword())) {
-            setSession(user);
-            return ResultCode.SUCCESS.getCode();
+            return setToken(user);
         } else {
-            return ResultCode.ERROR_LOGIN_PASSWORD_ERROR.getCode();
+            throw new CommonException(ResultCode.ERROR_LOGIN_PASSWORD_ERROR);
         }
-    }
-
-    private void setSession(User user) {
-        HttpSession session = BaseUtils.getSession();
-        session.setAttribute("userId", user.getId());
-        session.setAttribute("username", user.getUsername());
-        session.setAttribute("phoneNumber", user.getMobile());
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("email", user.getEmail());
-        String token = UUID.randomUUID().toString();
-        session.setAttribute("token", token);
-        tokens.put(token, user.getId());
     }
 
     @Override
-    public int login(String phoneNumber, int captcha) {
+    public void checkCaptcha(String captchaKey, String code) {
+        Object captcha = redisTemplate.opsForValue().get(captchaKey);
+        if (captcha == null) {
+            throw new CommonException(ResultCode.ERROR_LOGIN_CODE_AFTER_TIME);
+        }
+        if (!captcha.toString().equals(code)) {
+            throw new CommonException(ResultCode.ERROR_LOGIN_CODE);
+        }
+    }
+
+    private String setToken(User user) {
+        String token = UUID.randomUUID().toString();
+        redisTemplate.opsForValue().set(user.getId().toString(), token, 1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(token, user, 1, TimeUnit.DAYS);
+        return token;
+    }
+
+    @Override
+    public String login(String phoneNumber) {
         User user = dsl.selectFrom(userT).where(userT.MOBILE.eq(phoneNumber)).fetchOneInto(User.class);
         if (user == null) {
-            return ResultCode.ERROR_LOGIN_USERNAME_NOT_EXISTS.getCode();
+            throw new CommonException(ResultCode.ERROR_LOGIN_USERNAME_NOT_EXISTS);
         }
-        CodeMessage codeMsg = codeMap.get(phoneNumber);
-        if (codeMsg == null) {
-            return ResultCode.ERROR_LOGIN_CODE.getCode();
-        }
-        long now = System.currentTimeMillis();
-        long start = codeMsg.getTimeStamp();
-        if (now - start > 60 * 1000) {
-            return ResultCode.ERROR_LOGIN_CODE_AFTER_TIME.getCode();
-        }
-        setSession(user);
-        return ResultCode.SUCCESS.getCode();
+        return setToken(user);
     }
 
     @Override
     public void logout(String token) {
-        tokens.remove(token);
-        HttpSession session = BaseUtils.getSession();
-        session.invalidate();
+        redisTemplate.delete(token);
     }
 
     @Override
-    public int register(User user) {
+    public void register(User user) {
         User u = dsl.selectFrom(userT).where(userT.USERNAME.eq(user.getUsername())).fetchOneInto(User.class);
         if (u != null) {
-            return ResultCode.ERROR_LOGIN_USERNAME_EXISTS.getCode();
+            throw new CommonException(ResultCode.ERROR_LOGIN_USERNAME_EXISTS);
         }
         long id = Long.parseLong(System.currentTimeMillis() + "" + user.getUsername().hashCode());
         user.setId(id);
         user.setRole(Constant.Role.USER);
         userDao.insert(user);
-        return ResultCode.SUCCESS.getCode();
     }
 
     @Override
@@ -128,17 +122,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void getCaptcha(String phoneNumber) {
-        CodeMessage codeMsg = codeMap.get(phoneNumber);
-        if (codeMsg == null) {
+        Object code = redisTemplate.opsForValue().get(phoneNumber);
+        if (code == null) {
             sendCaptcha(phoneNumber);
-        } else {
-            long now = System.currentTimeMillis();
-            long start = codeMsg.getTimeStamp();
-            if (now - start > 60 * 1000) {
-                sendCaptcha(phoneNumber);
-            }
         }
-
     }
 
     @Override
@@ -184,8 +171,7 @@ public class UserServiceImpl implements UserService {
     private void sendCaptcha(String phoneNumber) {
         int code = SMSUtils.sendMessage(phoneNumber);
         if (code != -1) {
-            CodeMessage codeMessage = new CodeMessage(code, 0, System.currentTimeMillis());
-            codeMap.put(phoneNumber, codeMessage);
+            redisTemplate.opsForValue().set(phoneNumber, String.valueOf(code), 60, TimeUnit.SECONDS);
         }
     }
 }

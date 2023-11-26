@@ -28,8 +28,22 @@ public class Result<T> {
         this.data = data;
     }
 
+    public void ok() {
+        this.code = 0;
+    }
+
     public void error(String message) {
         this.code = -1;
         this.message = message;
+    }
+
+    public void error(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public void error(ResultCode code) {
+        this.code = code.getCode();
+        this.message = code.getMessage();
     }
 }
